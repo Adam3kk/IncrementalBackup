@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #Konfiguracja
-DIRS=("/home/adam/files" "/test/files") #sciezki do okreslonych folderow
-BACKUP_DIR="/tmp/backup" #sciezka do zapisywania kopii
+DIRS=("/home/adam/files" "/test/files" "/testowyfolder/pliki") #sciezki do okreslonych folderow
+BACKUP_DIR="/tmp/backup/files" #sciezka do zapisywania kopii
 TIMESTAMP=$(date +%Y_%m_%d_%H_%M_%S) #aktualna data
-SNAPSHOT_FILE="$BACKUP_DIR/snapshot.file" #plik pamietajacy ostatnie zmiany w kopiach
+SNAPSHOT_FILE="/tmp/backup/snapshot.file" #plik pamietajacy ostatnie zmiany w kopiach
 ENCRYPTION_PASSWORD="qwerty123" #Haslo do szyfrowania
 
 
