@@ -43,7 +43,7 @@ create_backup(){
 
 #funkcja umozliwiajaca przesylanie kopii
 send_to_server(){
-	local local_dir="/tmp/backup" #lokalizacja pliku z kopia
+	local local_dir="/tmp/backup/files" #lokalizacja pliku z kopia
 	local remote_user="adam" #nazwa uzytkownika na zdalnym serwerze
 	local remote_ip="172.20.141.55" #adres ip zdalnego serwera
 	local remote_dir="/home/adam/backup" #sciezka w ktorej pojawi sie nowy plik
