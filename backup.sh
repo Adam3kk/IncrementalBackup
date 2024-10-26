@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 #Konfiguracja
 DIRS=("/home/adam/files" "/test/files") #sciezki do okreslonych folderow
@@ -9,13 +9,20 @@ ENCRYPTION_PASSWORD="qwerty123" #Haslo do szyfrowania
 
 
 
-for dir in ${DIRS[@]}; do
-	if [ ! -d "$dir" ]; then
-		echo "Podany foldery nieistnieja.. Przerywam wykonywanie kopii"
-		exit 1
-	fi
-done
+check_dirs(){
+	for dir in ${DIRS[@]}; do
+		if [ ! -d "$dir" ]; then
+			echo "Podany foldery nieistnieja.. Przerywam wykonywanie kopii"
+			exit 1
+		fi
+	done
+}
 
+check_backup_dir(){
+	if [ ! -d "$BACKUP_DIR" ]; then
+		mkdir "$BACKUP_DIR"
+	fi
+}
 
 check_snapshot_file(){
 	if [ ! -f "$SNAPSHOT_FILE" ]; then
@@ -36,10 +43,10 @@ create_backup(){
 
 #funkcja umozliwiajaca przesylanie kopii
 send_to_server(){
-	local local_dir="/tmp/backup"
-	local remote_user="adam"
-	local remote_ip="172.20.141.55"
-	local remote_dir="/home/adam/backup"
+	local local_dir="/tmp/backup" #lokalizacja pliku z kopia
+	local remote_user="adam" #nazwa uzytkownika na zdalnym serwerze
+	local remote_ip="172.20.141.55" #adres ip zdalnego serwera
+	local remote_dir="/home/adam/backup" #sciezka w ktorej pojawi sie nowy plik
 
 	rsync -avz --progress "$local_dir" "$remote_user"@"$remote_ip":"$remote_dir"
 	
@@ -53,8 +60,10 @@ send_to_server(){
 
 }
 
+#Wywolanie poszczegolnych funkcji
+
+check_dirs
+check_backup_dir
 check_snapshot_file
-
 create_backup
-
 send_to_server
