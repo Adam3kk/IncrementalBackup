@@ -1,4 +1,4 @@
-# Dokumentacja skryptu umożliwiająca wysyłania kopii przyrostowej na zdalny serwer.
+# Dokumentacja skryptu umożliwiająca tworzenie kopii przyrostowej oraz wysyłanie kopii przyrostowej na zdalny serwer.
 
 ## Skrypt wykorzystuje prawie w pełni wbudowane komendy w system Linux. Jedyna zależność, która została doinstalowana jest to rsync. Umożliwia to w łatwy sposób przesyłanie plików na zdalny serwer.
 ## Weryfikacja zainstalowanego tara
@@ -18,7 +18,7 @@ apt install rsync
 ```
 ssh-copy-id -i ~/.ssh/id_rsa.pub nazwa_uzytkownika@adres_do_zdalnego_serwera
 ```
-##Dodanie skryptu do crontaba 
+## Dodanie skryptu do crontaba 
 ```
 sudo crontab -e
 ```
@@ -37,4 +37,10 @@ Funkcja odpowiedzialna za przesyłanie danych na zdalny serwer wykorzystuje rsyn
 
 * lokalizacja lokalnego pliku (plik do przesłania),
 * dane do logowania na zdalnym serwerze (nazwa użytkownika, adres IPv4),
-* ścieżka, w której ma zostać zapisana kopia przyrostowa. 
+* ścieżka, w której ma zostać zapisana kopia przyrostowa,
+
+Dodatkowo w skrypcie zaimplementowano funkcje weryfikujące istnienie folderów oraz plików niezbędnych do prawidłowego działania.
+
+* Funkcja check_dirs(): Sprawdza, czy foldery podane przez użytkownika istnieją. Jeśli któryś z nich nie istnieje, skrypt zostaje natychmiast przerwany, aby uniknąć dalszych błędów,
+* Metoda check_backup_dir(): Weryfikuje istnienie katalogu docelowego, w którym mają być przechowywane kopie zapasowe. Jeśli folder ten nie istnieje, funkcja automatycznie go tworzy,
+* Funkcja check_snapshot_file(): Sprawdza, czy plik snapshot (odpowiedzialny za śledzenie zmian w plikach) został utworzony. Jeśli plik nie istnieje, funkcja go tworzy. Plik ten jest kluczowy, ponieważ przechowuje informacje o bieżących zmianach w plikach, co jest niezbędne do poprawnego wykonywania kopii przyrostowych.
