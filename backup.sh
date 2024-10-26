@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 #Konfiguracja
 DIRS=("/home/adam/files" "/test/files") #sciezki do okreslonych folderow
