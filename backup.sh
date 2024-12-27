@@ -20,7 +20,7 @@ check_dirs(){
 
 check_backup_dir(){
 	if [ ! -d "$BACKUP_DIR" ]; then
-		mkdir "$BACKUP_DIR"
+		mkdir -p "$BACKUP_DIR"
 	fi
 }
 
@@ -45,7 +45,7 @@ create_backup(){
 send_to_server(){
 	local local_dir="/tmp/backup/files" #lokalizacja pliku z kopia
 	local remote_user="adam" #nazwa uzytkownika na zdalnym serwerze
-	local remote_ip="172.20.141.55" #adres ip zdalnego serwera
+	local remote_ip="172.22.233.105" #adres ip zdalnego serwera
 	local remote_dir="/home/adam/backup" #sciezka w ktorej pojawi sie nowy plik
 
 	rsync -avz --progress "$local_dir" "$remote_user"@"$remote_ip":"$remote_dir"
