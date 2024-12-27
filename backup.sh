@@ -12,7 +12,7 @@ ENCRYPTION_PASSWORD="qwerty123" #Haslo do szyfrowania
 check_dirs(){
 	for dir in ${DIRS[@]}; do
 		if [ ! -d "$dir" ]; then
-			echo "Podany foldery nieistnieja.. Przerywam wykonywanie kopii"
+			echo "Podany foldery nie istnieja.. Przerywam wykonywanie kopii"
 			exit 1
 		fi
 	done
