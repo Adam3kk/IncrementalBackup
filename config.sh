@@ -11,6 +11,7 @@ SNAPSHOT_FILE="${BACKUP_DIR}/snapshot.snar"
 # Remote server details
 DEST_USER="ubuntu"
 DEST_HOST=127.0.0.1
+# DESTINATION PATH with all data that was backed up
 DEST_PATH="/home/ubuntu/remote_backup"
 
 # Encryption passphrase (recommended to use an environment variable)
