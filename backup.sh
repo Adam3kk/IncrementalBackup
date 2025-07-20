@@ -1,13 +1,9 @@
 #!/bin/bash
 
-#Konfiguracja
-DIRS=("/home/adam/files" "/test/files" "/testowyfolder/pliki") #sciezki do okreslonych folderow
-BACKUP_DIR="/tmp/backup/files" #sciezka do zapisywania kopii
-TIMESTAMP=$(date +%Y_%m_%d_%H_%M_%S) #aktualna data
-SNAPSHOT_FILE="/tmp/backup/snapshot.file" #plik pamietajacy ostatnie zmiany w kopiach
-ENCRYPTION_PASSWORD="qwerty123" #Haslo do szyfrowania
+CONFIG_FILE="${1:-config.sh}"
+source "${CONFIG_FILE}"
 
-
+DIRS=("${SOURCE_DIRS[@]}")
 
 check_dirs(){
 	for dir in ${DIRS[@]}; do
@@ -35,20 +31,20 @@ check_snapshot_file(){
 
 #funkcja do tworzenia kopii przyrostowej
 create_backup(){
-	local backup_name="backup_$TIMESTAMP"
-	local temp_backup="$BACKUP_DIR/$backup_name.tar.enc"
 	
-	tar --listed-incremental="$SNAPSHOT_FILE" -cz ${DIRS[@]} | openssl enc -aes-256-cbc -pbkdf2 -pass pass:$ENCRYPTION_PASSWORD -out $temp_backup 
+	TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+        local archive_name="backup_${TIMESTAMP}.tar"
+        local encrypted_name="${BACKUP_DIR}/${archive_name}.enc"
+
+        tar --listed-incremental="$SNAPSHOT_FILE" -czf - "${DIRS[@]}" \
+  | openssl enc -aes-256-cbc -pbkdf2 -pass pass:"$ENCRYPTION_PASSWORD" -out "$encrypted_name"
+
 }
 
 #funkcja umozliwiajaca przesylanie kopii
 send_to_server(){
-	local local_dir="/tmp/backup/files" #lokalizacja pliku z kopia
-	local remote_user="adam" #nazwa uzytkownika na zdalnym serwerze
-	local remote_ip="172.22.233.105" #adres ip zdalnego serwera
-	local remote_dir="/home/adam/backup" #sciezka w ktorej pojawi sie nowy plik
 
-	rsync -avz --progress "$local_dir" "$remote_user"@"$remote_ip":"$remote_dir"
+        rsync -avz -e "ssh -i ${SSH_KEY}" --progress "${BACKUP_DIR}/" "${DEST_USER}@${DEST_HOST}:${DEST_PATH}/"
 	
 	if [[ $? -eq 0 ]]; then
 		echo "Przesylanie zakonczylo sie sukcesem"
