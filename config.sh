@@ -19,3 +19,6 @@ ENCRYPTION_PASS="qwerty123"
 
 # Optional path to a private key. In my case, it is needed to access an AWS VM.
 SSH_KEY="/home/ubuntu/backup.pem"
+
+#Path to log file
+LOG_FILE="/home/ubuntu/Backup/backup.log"

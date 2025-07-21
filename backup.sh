@@ -5,6 +5,9 @@ source "${CONFIG_FILE}"
 
 DIRS=("${SOURCE_DIRS[@]}")
 
+exec >> "$LOG_FILE" 2>&1
+echo "========== START BACKUP: $(date) =========="
+
 check_dirs(){
 	for dir in ${DIRS[@]}; do
 		if [ ! -d "$dir" ]; then

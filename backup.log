@@ -1,0 +1,26 @@
+========== START BACKUP: Mon Jul 21 19:15:13 UTC 2025 ==========
+Plik snapshot.file juz istnieje
+tar: Removing leading `/' from member names
+sending incremental file list
+./
+backup_20250721_191513.tar.enc
+         32,768   6%    0.00kB/s    0:00:00          527,584 100%  235.95MB/s    0:00:00 (xfr#1, to-chk=1/6)
+snapshot.snar
+          3,769 100%    1.80MB/s    0:00:00            3,769 100%    1.20MB/s    0:00:00 (xfr#2, to-chk=0/6)
+
+sent 529,284 bytes  received 87 bytes  1,058,742.00 bytes/sec
+total size is 977,497  speedup is 1.85
+Przesylanie zakonczylo sie sukcesem
+========== START BACKUP: Mon Jul 21 19:15:43 UTC 2025 ==========
+Plik snapshot.file juz istnieje
+tar: Removing leading `/' from member names
+sending incremental file list
+./
+backup_20250721_191543.tar.enc
+         32,768   3%    0.00kB/s    0:00:00        1,061,312 100%  196.18MB/s    0:00:00 (xfr#1, to-chk=1/7)
+snapshot.snar
+          3,803 100%  742.77kB/s    0:00:00            3,803 100%  742.77kB/s    0:00:00 (xfr#2, to-chk=0/7)
+
+sent 1,063,155 bytes  received 93 bytes  2,126,496.00 bytes/sec
+total size is 2,038,843  speedup is 1.92
+Przesylanie zakonczylo sie sukcesem
