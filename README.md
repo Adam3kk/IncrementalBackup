@@ -1,46 +1,69 @@
-# Dokumentacja skryptu umożliwiająca tworzenie kopii przyrostowej oraz wysyłanie kopii przyrostowej na zdalny serwer.
+# Incremental Backup Script with Encryption and Remote Upload
 
-## Skrypt wykorzystuje prawie w pełni wbudowane komendy w system Linux. Jedyna zależność, która została doinstalowana jest to rsync. Umożliwia to w łatwy sposób przesyłanie plików na zdalny serwer.
-## Weryfikacja zainstalowanego tara
+## This script provides automated, encrypted **incremental backups** for specified directories. It is designed to be simple, secure, and efficient, and supports remote backup. 
+
+##  Requirement
+
+### Check the installed version of tar
 ```
 tar --version
 ```
-## Sprawdzenie zainstalowanego openssl'a
+### Check the installed version of openssl
 ```
 openssl version
 ```
-## Instalacja rsync
+### Install rsync
 ```
 apt update
 apt install rsync
 ```
-## Kolejna ważna kwestia jest wydanie polecenia, który skopiuje nasz klucz publiczny z naszego lokalnego środowiska na zdalny. Spowoduje to pominiecie funkcji wpisywania hasła podczas wykonywania skryptu. Istotne w późniejszej fazie wykonywania skryptu automatycznie.
+### Copy your local public SSH key to the remote server
+#### This step allows the script to connect via SSH without prompting for a password. It is important for automated backups:
 ```
 ssh-copy-id -i ~/.ssh/id_rsa.pub nazwa_uzytkownika@adres_do_zdalnego_serwera
 ```
-## Dodanie skryptu do crontaba 
+### Add the backup script to crontab
 ```
 sudo crontab -e
 ```
-## Ustawienie żeby skrypt wykonywał się raz dziennie, w tym przypadku o 18:00
+### Schedule the script to run daily at 6 PM
 ```
-0 18 * * * /lokalizacja/do/skryptu
+0 18 * * * /path/to/backup.sh
 ```
-## Opis działania skryptu
-Skrypt skupia się na tworzeniu przyrostowych kopii zapasowych dla określonych lokalizacji, które użytkownik definiuje w pliku konfiguracyjnym.
+### How It Works
 
-Pierwsze wywołanie skryptu wykonuje pełną kopię wszystkich elementów znajdujących się w zadanej lokalizacji.
-Kolejne wywołania bazują na zmianach w plikach i folderach, co jest monitorowane za pomocą pliku SNAPSHOT_FILE. Plik ten przechowuje informacje o wprowadzonych zmianach.
-Podczas tworzenia archiwum skrypt korzysta z wbudowanego narzędzia tar, które zbiera wszystkie dane w jednym miejscu. Proces archiwizacji obejmuje również szyfrowanie nowo utworzonego pliku, które jest realizowane za pomocą narzędzia OpenSSL. W tym przypadku zastosowano algorytm AES-256-CBC do szyfrowania danych. Hasło do szyfrowania i deszyfrowania jest zdefiniowane w strukturze skryptu.
+#### First Run (Full backup)
+- The script creates a **full archive** of all files and folders defined by the user in a configuration file,
 
-Funkcja odpowiedzialna za przesyłanie danych na zdalny serwer wykorzystuje rsync, który przyjmuje następujące argumenty:
+#### Subsequent Runs (Incremental Backup)
+- Only files that have changed since the last backup are archived,
+- File changes are tracked using a **snapshot file** (`SNAPSHOT_FILE`), which stores metadata about file states over time,
 
-* lokalizacja lokalnego pliku (plik do przesłania),
-* dane do logowania na zdalnym serwerze (nazwa użytkownika, adres IPv4),
-* ścieżka, w której ma zostać zapisana kopia przyrostowa,
+#### Archiving & Encryption
+- The script uses the `tar` utility to create backup archives,
+- Each archive is **encrypted using OpenSSL** with the `AES-256-CBC` algorithm,
+- The encryption password is defined within the script,
 
-Dodatkowo w skrypcie zaimplementowano funkcje weryfikujące istnienie folderów oraz plików niezbędnych do prawidłowego działania.
+#### Remote Backup Support
 
-* Funkcja check_dirs(): Sprawdza, czy foldery podane przez użytkownika istnieją. Jeśli któryś z nich nie istnieje, skrypt zostaje natychmiast przerwany, aby uniknąć dalszych błędów,
-* Metoda check_backup_dir(): Weryfikuje istnienie katalogu docelowego, w którym mają być przechowywane kopie zapasowe. Jeśli folder ten nie istnieje, funkcja automatycznie go tworzy,
-* Funkcja check_snapshot_file(): Sprawdza, czy plik snapshot (odpowiedzialny za śledzenie zmian w plikach) został utworzony. Jeśli plik nie istnieje, funkcja go tworzy. Plik ten jest kluczowy, ponieważ przechowuje informacje o bieżących zmianach w plikach, co jest niezbędne do poprawnego wykonywania kopii przyrostowych.
+##### Backups can be securely transferred to a remote server using `rsync`.
+
+`rsync` is provided with:
+- the path to the local archive file,
+- remote server login credentials (username and IPv4 address),
+- the destination path on the remote server.
+
+#### Validation Functions
+
+##### `check_dirs()`
+- Verifies that all source directories (to be backed up) exist.
+- If any are missing, the script exits immediately to avoid inconsistent backups.
+
+##### `check_backup_dir()`
+- Ensures that the local destination directory for backups exists.
+- Automatically creates the directory if it's missing.
+
+##### `check_snapshot_file()`
+- Checks if the snapshot file exists.
+- If not, it creates one. This file is essential for detecting incremental changes.
+
