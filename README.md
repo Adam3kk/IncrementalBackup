@@ -53,7 +53,7 @@ sudo crontab -e
 - remote server login credentials (username and IPv4 address),
 - the destination path on the remote server.
 
-#### Validation Functions
+#### Information about functions
 
 ##### `check_dirs()`
 - Verifies that all source directories (to be backed up) exist.
@@ -67,3 +67,13 @@ sudo crontab -e
 - Checks if the snapshot file exists.
 - If not, it creates one. This file is essential for detecting incremental changes.
 
+##### `create_backup()`
+- Creates an incremental archive using `tar` and a snapshot file,
+- The archive includes only files changed since the last backup,
+- The archive is encrypted using AES-256-CBC via `openssl`,
+- The resulting `.tar.enc` file is saved to the `BACKUP_DIR`,
+
+##### `send_to_server()`
+- Transfers all files from `BACKUP_DIR` to the remote server using `rsync` over SSH,
+- Uses the SSH private key specified by `SSH_KEY`,
+- All output is logged to the file defined in `LOG_FILE`,

@@ -65,8 +65,6 @@ send_to_server(){
 		echo "Problem sending data. Error code: $?."
 	fi
 
-
-
 }
 
 #Execute all functions
