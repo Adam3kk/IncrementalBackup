@@ -77,3 +77,8 @@ sudo crontab -e
 - Transfers all files from `BACKUP_DIR` to the remote server using `rsync` over SSH,
 - Uses the SSH private key specified by `SSH_KEY`,
 - All output is logged to the file defined in `LOG_FILE`,
+
+##### `check_old_local_backups()`
+- Searches the local backup directory (BACKUP_DIR) for .tar.enc files older than 5 days,
+- If old backup files are found, their paths are printed to the log and then deleted using find, 
+- Otherwise if no old files are found, an informational message is logged instead,
