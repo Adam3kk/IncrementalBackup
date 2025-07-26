@@ -20,7 +20,7 @@ apt install rsync
 ### Copy your local public SSH key to the remote server
 #### This step allows the script to connect via SSH without prompting for a password. It is important for automated backups:
 ```
-ssh-copy-id -i ~/.ssh/id_rsa.pub nazwa_uzytkownika@adres_do_zdalnego_serwera
+ssh-copy-id -i ~/.ssh/id_rsa.pub username@remote_server_ipv4_address
 ```
 ### Add the backup script to crontab
 ```
