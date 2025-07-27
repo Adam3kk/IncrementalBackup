@@ -28,7 +28,7 @@ sudo crontab -e
 ```
 ### Schedule the script to run daily at 6 PM
 ```
-0 18 * * * /path/to/backup.sh
+0 18 * * * /path/to/backup.sh /path/to/config.sh
 ```
 ### How It Works
 
@@ -82,3 +82,7 @@ sudo crontab -e
 - Searches the local backup directory (BACKUP_DIR) for .tar.enc files older than 5 days,
 - If old backup files are found, their paths are printed to the log and then deleted using find, 
 - Otherwise if no old files are found, an informational message is logged instead,
+
+##### `check_free_space()`
+- Verifies that there is enough free disk space available in the backup destination directory (BACKUP_DIR) before creating a new backup,
+- If the available space is below a defined 2GB, the script exits and displays an error, 

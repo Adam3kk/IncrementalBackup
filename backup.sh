@@ -8,6 +8,20 @@ DIRS=("${SOURCE_DIRS[@]}")
 exec >> "$LOG_FILE" 2>&1
 echo "========== START BACKUP: $(date) =========="
 
+#Functio helps user to check free spaces before make backup
+check_free_space(){
+	AVAILABLE_SPACE=$(df "$BACKUP_DIR" | awk 'NR==2 {print $4}')
+	AVAILABLE_SPACE_GB=$((AVAILABLE_SPACE / 1024 / 1024))
+	FREE_SPACE=2
+
+	if [ "$AVAILABLE_SPACE_GB" -lt "$FREE_SPACE" ]; then
+		echo "[ERROR] Not enough disk space for backup. Minimum required: $FREE_SPACE GB"
+        	echo "========== BACKUP COMPLETED: $(date) =========="
+		exit 1
+	fi
+	echo "[INFO] Free space available: $AVAILABLE_SPACE_GB GB"
+}
+
 
 # Function to delete local backup files older than 5 days
 check_old_local_backups() {
@@ -93,6 +107,7 @@ send_to_server(){
 }
 
 #Execute all functions
+check_free_space
 check_old_local_backups
 check_dirs
 check_backup_dir
