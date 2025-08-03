@@ -86,3 +86,12 @@ sudo crontab -e
 ##### `check_free_space()`
 - Verifies that there is enough free disk space available in the backup destination directory (BACKUP_DIR) before creating a new backup,
 - If the available space is below a defined 2GB, the script exits and displays an error, 
+
+## Decrypting Backups
+
+A separate script `decrypt.sh` is provided to decrypt and extract backups. Additionally all decryption logs are stored in `decrypt.log` for later review
+
+### Usage
+```
+./decrypt.sh config.sh /path/to/backup_file.tar.enc /destination/directory
+```
