@@ -58,6 +58,19 @@ check_log_file(){
 	fi
 }
 
+# Function to check the size of backup.log. If it is greater than 10 MB, create a new log file and rename the old one with the current date plus .old
+check_size_file_log() {
+    if [ -f "$LOG_FILE" ] && [ "$(stat -c%s "$LOG_FILE")" -gt 10000000 ]; then
+        TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+        ROTATED_FILE="${LOG_FILE}_${TIMESTAMP}.old"
+
+        mv "$LOG_FILE" "$ROTATED_FILE"
+        touch "$LOG_FILE"
+
+        echo "[INFO] Log file rotated: $ROTATED_FILE"
+    fi
+}
+
 check_dirs(){
 	for dir in ${DIRS[@]}; do
 		if [ ! -d "$dir" ]; then
@@ -111,6 +124,8 @@ send_to_server(){
 #Execute all functions
 check_free_space
 check_old_local_backups
+check_log_file
+check_size_file_log
 check_dirs
 check_backup_dir
 check_snapshot_file

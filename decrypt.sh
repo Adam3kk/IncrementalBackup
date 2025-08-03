@@ -54,9 +54,23 @@ decrypt_file() {
     fi
 }
 
+# Function to check the size of backup.log. If it is greater than 10 MB, create a new log file and rename the old one with the current date plus .old.
+check_size_file_log(){
+        if [ -f "$DECRYPT_LOG_FILE" ] && [ "$(stat -c%s "$DECRYPT_LOG_FILE")" -gt 10000000 ]; then
+		TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+		ROTATED_FILE="${DECRYPT_LOG_FILE}_${TIMESTAMP}.old"
+
+		mv "$DECRYPT_LOG_FILE" "$ROTATED_FILE"
+		touch "$DECRYPT_LOG_FILE"
+
+		echo "[INFO] Log file rotated: $ROTATED_FILE"
+        fi
+}
+
 # Run all functions
 check_arguments "$@"
 check_files
 decrypt_file
+check_size_file_log
 
 echo "========== DECRYPT COMPLETED: Sun Jul 27 17:19:02 UTC 2025 =========="
