@@ -87,6 +87,11 @@ sudo crontab -e
 - Verifies that there is enough free disk space available in the backup destination directory (BACKUP_DIR) before creating a new backup,
 - If the available space is below a defined 2GB, the script exits and displays an error, 
 
+##### `check_size_file_log ()`
+- Monitors the size of the log files (`backup.log` and `decrypt.log`),
+- If a log file exceeds **10 MB**. It is automatically rotated,
+- Helps prevent logs from growing indefinitely and consuming excessive disk space,
+
 ## Decrypting Backups
 
 A separate script `decrypt.sh` is provided to decrypt and extract backups. Additionally all decryption logs are stored in `decrypt.log` for later review
