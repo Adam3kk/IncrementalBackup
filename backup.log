@@ -1,11 +1,12 @@
-========== START BACKUP: Sun Jul 27 17:17:09 UTC 2025 ==========
-[ERROR] Not enough disk space for backup. Minimum required: 5 GB
-========== BACKUP COMPLETED: Sun Jul 27 17:17:09 UTC 2025 ==========
-========== START BACKUP: Sun Jul 27 17:19:01 UTC 2025 ==========
+========== START BACKUP: Mon Aug  4 20:14:08 UTC 2025 ==========
 [INFO] Free space available: 4 GB
 [INFO] Checking for old backups in: /home/ubuntu/local_backup
 [INFO] No old backups found to delete.
 [INFO] File snapshot.file already exists
 [INFO] Backup archive created and encrypted.
 [INFO] Successfully sent all data to the remote server.
-========== BACKUP COMPLETED: Sun Jul 27 17:19:02 UTC 2025 ==========
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   124    0     0  100   124      0    518 --:--:-- --:--:-- --:--:--   518
+[INFO] Backup status notification sent to the user.
+========== BACKUP COMPLETED: Mon Aug  4 20:14:12 UTC 2025 ==========

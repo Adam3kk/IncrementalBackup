@@ -115,10 +115,23 @@ send_to_server(){
 
 	if [[ $? -eq 0 ]]; then
 		echo "[INFO] Successfully sent all data to the remote server."
+		send_notification_to_discord
 	else
 		echo "[ERROR] Problem sending data. Error code: $?."
 	fi
 
+}
+# Function to send a notification to the user about the backup status
+send_notification_to_discord(){
+	# Define the Discord webhook URL for the target channel
+	WEBHOOK_URL="https://discord.com/api/webhooks/1402012789731627120/tPnm8uEJTk5hGVqW-8O9m3Gjjc4_Os3mYZbQ2wge2i38BqpCClR0SoL00jZk_vWswDW6"
+
+	# JSON payload to send to Discord
+	BODY='{"username": "BackupBot", "content": "[INFO] Your backup was successfully sent to the remote server without any problems. "}'
+
+	# Send notification
+	curl -H "Content-Type: application/json" -d "$BODY" $WEBHOOK_URL
+	echo "[INFO] Backup status notification sent to the user."
 }
 
 #Execute all functions
