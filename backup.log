@@ -1,4 +1,4 @@
-========== START BACKUP: Mon Aug  4 20:14:08 UTC 2025 ==========
+========== START BACKUP: Tue Aug  5 19:39:09 UTC 2025 ==========
 [INFO] Free space available: 4 GB
 [INFO] Checking for old backups in: /home/ubuntu/local_backup
 [INFO] No old backups found to delete.
@@ -7,6 +7,21 @@
 [INFO] Successfully sent all data to the remote server.
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   124    0     0  100   124      0    518 --:--:-- --:--:-- --:--:--   518
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   124    0     0  100   124      0    307 --:--:-- --:--:-- --:--:--   307
 [INFO] Backup status notification sent to the user.
-========== BACKUP COMPLETED: Mon Aug  4 20:14:12 UTC 2025 ==========
+========== BACKUP COMPLETED: Tue Aug  5 19:39:21 UTC 2025 ==========
+========== START BACKUP: Tue Aug  5 19:39:47 UTC 2025 ==========
+[INFO] Free space available: 3 GB
+[INFO] Checking for old backups in: /home/ubuntu/local_backup
+[INFO] No old backups found to delete.
+[INFO] File snapshot.file already exists
+[INFO] Backup archive created and encrypted.
+ssh: Could not resolve hostname : Name or service not known
+rsync: connection unexpectedly closed (0 bytes received so far) [sender]
+rsync error: unexplained error (code 255) at io.c(232) [sender=3.2.7]
+[ERROR] Problem sending data. Error code: 1.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    86    0     0  100    86      0    349 --:--:-- --:--:-- --:--:--   349
+[INFO] Backup status notification sent to the user.
+========== BACKUP COMPLETED: Tue Aug  5 19:40:11 UTC 2025 ==========

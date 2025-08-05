@@ -22,6 +22,7 @@ check_free_space(){
 	if [ "$AVAILABLE_SPACE_GB" -lt "$FREE_SPACE" ]; then
 		echo "[ERROR] Not enough disk space for backup. Minimum required: $FREE_SPACE GB"
         	echo "========== BACKUP COMPLETED: $(date) =========="
+		send_notification_to_discord error
 		exit 1
 	fi
 	echo "[INFO] Free space available: $AVAILABLE_SPACE_GB GB"
@@ -115,20 +116,27 @@ send_to_server(){
 
 	if [[ $? -eq 0 ]]; then
 		echo "[INFO] Successfully sent all data to the remote server."
-		send_notification_to_discord
+		send_notification_to_discord success
 	else
 		echo "[ERROR] Problem sending data. Error code: $?."
+		send_notification_to_discord error
 	fi
 
 }
 # Function to send a notification to the user about the backup status
 send_notification_to_discord(){
+
+	STATUS="$1"
 	# Define the Discord webhook URL for the target channel
-	WEBHOOK_URL="https://discord.com/api/webhooks/1402012789731627120/tPnm8uEJTk5hGVqW-8O9m3Gjjc4_Os3mYZbQ2wge2i38BqpCClR0SoL00jZk_vWswDW6"
+	WEBHOOK_URL=""
+	if [ "$STATUS" == "success" ]; then
+		# JSON payload to send to Discord
+        	BODY='{"username": "BackupBot", "content": "[INFO] Your backup was successfully sent to the remote server without any problems. "}'
+	else
+		# JSON payload to send to Discord
+                BODY='{"username": "BackupBot", "content": "[ERROR] Backup failed! Please check the logs. "}'
 
-	# JSON payload to send to Discord
-	BODY='{"username": "BackupBot", "content": "[INFO] Your backup was successfully sent to the remote server without any problems. "}'
-
+	fi
 	# Send notification
 	curl -H "Content-Type: application/json" -d "$BODY" $WEBHOOK_URL
 	echo "[INFO] Backup status notification sent to the user."
