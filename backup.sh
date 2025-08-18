@@ -17,7 +17,7 @@ check_free_space(){
 
 	# Check if the available space is less than the required free space
 	if [ "$AVAILABLE_SPACE_GB" -lt "$MIN_FREE_SPACE_GB" ]; then
-		echo "[ERROR] Not enough disk space for backup. Minimum required: $FREE_SPACE GB"
+		echo "[ERROR] Not enough disk space for backup. Minimum required: $MIN_FREE_SPACE_GB GB"
         	echo "========== BACKUP COMPLETED: $(date) =========="
 		send_notification_to_discord error
 		exit 1
@@ -70,7 +70,7 @@ check_size_file_log() {
 }
 
 check_dirs(){
-	for dir in ${DIRS[@]}; do
+	for dir in "${DIRS[@]}"; do
 		if [ ! -d "$dir" ]; then
 			echo "[ERROR] One or more source directories are missing. Stopping backup"
 			send_notification_to_discord error
@@ -91,7 +91,7 @@ check_snapshot_file(){
 		touch "$SNAPSHOT_FILE"
 		echo "[INFO] Created snaphshot file snapshot.file"
 	else
-		echo "[INFO] File snapshot.file already exists"
+		echo "[INFO] File $SNAPSHOT_FILE already exists"
 	fi
 }
 
