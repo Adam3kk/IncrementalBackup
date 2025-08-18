@@ -33,7 +33,7 @@ check_old_local_backups() {
     	echo "[INFO] Checking for old backups in: $BACKUP_DIR"
 
 	# Condition to find old backup files
-	AGE_CONDITION="-mtime +5"
+	AGE_CONDITION="-mtime +${RETENTION_DAYS}"
 
 	# Check old backups
 	OLD_FILES=$(find "$BACKUP_DIR" -name "*.tar.enc" -type f $AGE_CONDITION)

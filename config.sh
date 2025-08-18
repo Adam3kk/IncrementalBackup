@@ -22,3 +22,6 @@ SSH_KEY="/home/ubuntu/backup.pem"
 
 #Path to log file
 LOG_FILE="/home/ubuntu/Backup/backup.log"
+
+# Number of days to keep local backup files before deletion
+RETENTION_DAYS=5
