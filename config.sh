@@ -25,3 +25,6 @@ LOG_FILE="/home/ubuntu/Backup/backup.log"
 
 # Number of days to keep local backup files before deletion
 RETENTION_DAYS=5
+
+# Minimum free space required in GB to run backup
+MIN_FREE_SPACE_GB=2

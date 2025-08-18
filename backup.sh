@@ -15,11 +15,8 @@ check_free_space(){
 	# Convert available space from KB to GB
 	AVAILABLE_SPACE_GB=$((AVAILABLE_SPACE / 1024 / 1024))
 
-	# Define the minimum required free space (in GB)
-	FREE_SPACE=2
-
 	# Check if the available space is less than the required free space
-	if [ "$AVAILABLE_SPACE_GB" -lt "$FREE_SPACE" ]; then
+	if [ "$AVAILABLE_SPACE_GB" -lt "$MIN_FREE_SPACE_GB" ]; then
 		echo "[ERROR] Not enough disk space for backup. Minimum required: $FREE_SPACE GB"
         	echo "========== BACKUP COMPLETED: $(date) =========="
 		send_notification_to_discord error
