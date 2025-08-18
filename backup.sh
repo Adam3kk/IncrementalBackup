@@ -51,7 +51,7 @@ check_old_local_backups() {
 
 check_log_file(){
 	if [ -z "$LOG_FILE" ]; then
-		echo "[INFO] LOG_FILE path is not included."
+		echo "[ERROR] LOG_FILE path is not included."
 		exit 1
 	fi
 }
@@ -72,7 +72,8 @@ check_size_file_log() {
 check_dirs(){
 	for dir in ${DIRS[@]}; do
 		if [ ! -d "$dir" ]; then
-			echo "[INFO] One or more source directories are missing. Stopping backup"
+			echo "[ERROR] One or more source directories are missing. Stopping backup"
+			send_notification_to_discord error
 			exit 1
 		fi
 	done
@@ -81,6 +82,7 @@ check_dirs(){
 check_backup_dir(){
 	if [ ! -d "$BACKUP_DIR" ]; then
 		mkdir -p "$BACKUP_DIR"
+		echo "[INFO] Backup directory not found. Created: $BACKUP_DIR"
 	fi
 }
 
