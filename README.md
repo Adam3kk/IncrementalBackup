@@ -87,10 +87,20 @@ sudo crontab -e
 - Verifies that there is enough free disk space available in the backup destination directory (BACKUP_DIR) before creating a new backup,
 - If the available space is below a defined 2GB, the script exits and displays an error, 
 
-##### `check_size_file_log ()`
+##### `check_size_file_log()`
 - Monitors the size of the log files (`backup.log` and `decrypt.log`),
 - If a log file exceeds **10 MB**. It is automatically rotated,
 - Helps prevent logs from growing indefinitely and consuming excessive disk space,
+
+##### `check_log_file()`
+- Verifies that the **LOG_FILE** path is defined,
+- If the variable is empty or missing, the script exits with an error,
+- Prevents running without a valid logging destination,
+
+#### `send_notification_to_discord()`
+- Sends a status notification to a Discord channel using a webhook,
+- If success, sends an informational message confirming the backup was completed and uploaded,
+- If error, sends an error message instructing the user to check the logs,
 
 ## Decrypting Backups
 
