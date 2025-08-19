@@ -6,7 +6,6 @@ source "${CONFIG_FILE}"
 DIRS=("${SOURCE_DIRS[@]}")
 
 exec >> "$LOG_FILE" 2>&1
-echo "========== START BACKUP: $(date) =========="
 
 #Function helps user to check free spaces before make backup
 check_free_space(){
@@ -141,7 +140,23 @@ send_notification_to_discord(){
 	echo "[INFO] Backup status notification sent to the user."
 }
 
+# Function to prevent running multiple instances of the backup script
+lock_backup(){
+	LOCKFILE="/tmp/backup.lock"
+
+	if [ -e "$LOCKFILE" ]; then
+		echo "[INFO] Another backup is already running. Exiting"
+		exit 0
+
+	fi
+
+	touch "$LOCKFILE"
+	trap 'rm -f "$LOCKFILE"' EXIT
+}
+
 #Execute all functions
+lock_backup
+echo "========== START BACKUP: $(date) =========="
 check_free_space
 check_old_local_backups
 check_log_file

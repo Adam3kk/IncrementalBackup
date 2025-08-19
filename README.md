@@ -102,6 +102,10 @@ sudo crontab -e
 - If success, sends an informational message confirming the backup was completed and uploaded,
 - If error, sends an error message instructing the user to check the logs,
 
+#### `lock_backup()`
+- Prevents multiple instances of the backup script from running at the same time,
+- If the file already exists, the script assumes another backup process is active and exits,
+
 ## Decrypting Backups
 
 A separate script `decrypt.sh` is provided to decrypt and extract backups. Additionally all decryption logs are stored in `decrypt.log` for later review
